@@ -5,15 +5,15 @@ our $VERSION = '0.08';
 use base 'Test::Builder::Module';
 use 5.006000;
 
+use Exporter;
+our @EXPORT_OK = qw(test_requires);
+
 sub import {
     my $class = shift;
     my $caller = caller(0);
 
     # export methods
-    {
-        no strict 'refs';
-        *{"$caller\::test_requires"} = \&test_requires;
-    }
+    __PACKAGE__->export_to_level(1, undef, 'test_requires');
 
     # test arguments
     if (@_ == 1 && ref $_[0] && ref $_[0] eq 'HASH') {
